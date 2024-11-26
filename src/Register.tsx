@@ -87,7 +87,7 @@ const Register: React.FC = () => {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post('/api/v1/users/', {
+      const response = await axios.post('https://18d6-131-100-68-191.ngrok-free.app/api/v1/users/', {
         username: username,
         email: email,
         password_hash: senha,

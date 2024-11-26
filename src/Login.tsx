@@ -65,11 +65,12 @@ const Login: React.FC = () => {
   const handleLogin = async () => {
     try {
       const response = await axios.get(`https://18d6-131-100-68-191.ngrok-free.app/api/v1/users/email/${email}`);
-      if (response.status === 201) {
+      if (response.status === 200) {
         const user: User = response.data;
+        console.log('User found:', user);
         setUser(user);
         console.log('Login response:', user);
-        // Handle successful login here
+        navigate('/decks'); // Redirect to Decks page on successful login
       }
     } catch (error) {
       console.error('Error logging in:', error);

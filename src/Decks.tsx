@@ -121,7 +121,11 @@ const Decks: React.FC = () => {
     if (user) {
       try {
         const response = await axios.get(`https://18d6-131-100-68-191.ngrok-free.app/api/v1/decks/user/${user.id}`);
-        setDecks(response.data);
+        if (Array.isArray(response.data)) {
+          setDecks(response.data);
+        } else {
+          console.error('Error: API response is not an array');
+        }
       } catch (error) {
         console.error('Error fetching decks:', error);
       }
@@ -156,12 +160,16 @@ const Decks: React.FC = () => {
   }, [location]);
 
   const handleAddDeck = async () => {
+    console.log('User:', user);
+    console.log('Adding deck:', newDeckName);
     if (user && newDeckName) {
       try {
-        await axios.post(`https://18d6-131-100-68-191.ngrok-free.app/api/v1/decks/`, {
+        const response = await axios.post(`https://18d6-131-100-68-191.ngrok-free.app/api/v1/decks/`, {
           user_id: user.id,
           name: newDeckName,
         });
+        console.log('Deck added successfully:', response.data);
+        
         setNewDeckName(''); // Clear the input field
         await fetchDecks(); // Re-fetch decks
         await fetchSynergyScores(); // Re-fetch synergy scores
